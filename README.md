@@ -1,14 +1,19 @@
-![I will fill this in myself](images/some_image.jpg)
+![Home Page](images/home_page.jpg)
 
 # Solana Soothsayer (Winner of Solana Track HackWesTX 2026)
 ### By [Matthew Thomas Beck](https://www.linkedin.com/in/matthewthomasbeck/)
 
+Click [here](https://devpost.com/software/solana-soothsayer) for the Devpost
+
 **Please consider:** if you like it, **star it!**
 
 ## Tech Stack
-- **Language:** *Python*
-- **Libraries:** *threading, queue, time, os, socket, logging, collections.deque, subprocess, signal, sys, random, numpy, opencv-python, openvino, smbus, RPi.GPIO, pigpio, pyserial*
-- **Toolkits:** *OpenVino*
+- **Languages:** *Dart, Python*
+- **Frontend:** *Flutter, Auth0 Flutter SDK (`auth0_flutter`), http*
+- **Application Backend:** *Flask, Gunicorn, flask-cors, yfinance, pandas, NumPy, psycopg, PyJWT*
+- **Predictor Backend:** *Flask, Gunicorn, PyTorch (BiGRU + temporal attention), NumPy, scikit-learn, PyJWT*
+- **Data & Auth:** *Tiger Cloud / TimescaleDB, Auth0 (Universal Login + M2M)*
+- **Infra:** *AWS EC2, Tailscale, CUDA GPU*
 
 ## Basic Information
 
