@@ -1,88 +1,34 @@
-APP NAME (WIP): Solana Soothsayer
+![I will fill this in myself](images/some_image.jpg)
 
-THE PLAN!
+# Solana Soothsayer (Winner of Solana Track HackWesTX 2026)
+### By [Matthew Thomas Beck](https://www.linkedin.com/in/matthewthomasbeck/)
 
-login to app with auth0 -> EC2 backend (EC2B) checks creds -> EC2B grabs data from Tiger Data DB (TD) for Sol ticker ->
-if new there is new data via checking date of latest and current date, update TD with latest data and call prediction service (PS) with auth0 creds ->
-take timeseries JSON given by backend and predict using LSTM RNN -> return predictions to EC2B -> EC2B updates TD databse with latest predictions ->
-EC2B sends latest data to Flutter Frontend (FF) and reloads the page if there was new data detected -> if market looks good (i.e. Sol predicted to increase in price), suggest to buy ->
-if user wants to buy, handle Sol purchase workflow (paper purchasing, I dont want to risk my net worth lmao)
+**Please consider:** if you like it, **star it!**
 
-Competitive Components:
+## Tech Stack
+- **Language:** *Python*
+- **Libraries:** *threading, queue, time, os, socket, logging, collections.deque, subprocess, signal, sys, random, numpy, opencv-python, openvino, smbus, RPi.GPIO, pigpio, pyserial*
+- **Toolkits:** *OpenVino*
 
-* needs to use auth0 for use login and prediciton service auth (MLH Auth0 track)
-* needs to use Tiger Database to store timeseries data efficiently (MLH Tiger Data track)
-* needs to use Solana timeseries data from Solana api on Python (MLH Solana track)
-* needs to incorporate Solana blockchain API for paper trading (MLH Solana track)
-* needs to use Flutter for iOS + Android compatibility and gestures (UI/UX track)
+## Basic Information
 
-Application Frontend Components:
-* use aesthetic trading color system (pastels + night mode ideal)
-* cannot be ugly af
-* must allow for ticker updates from backend
-* must allow for trade placing
-* must have loading screen
-* must have logging screen
-* must take and display JSON data from backend
+Solana Soothsayer is a Flutter trading companion that forecasts Solana (SOL) daily closes with a deep-learning time-series model, stores market history in a timeseries database, and lets you paper-trade against those forecasts without risking real money.
 
-Application Frontend Ideas:
-* want theme to be pruple + blue + green with dark/light mode and a slight glow and gradients
-* want to use simple font and icons whose colors I can ideally manipulate
-* loading page with simple solana logo in the center, subtle pulsing glow animation, short status text below (e.g. "Loading market data..."), and auto-navigate to login or home once auth + first /market fetch finish
-* login page with app name + one-line tagline at top, centered "Sign in with Auth0" button (purple/blue gradient), small footer note that this is paper trading only, and redirect to onboarding on first launch or home if already seen onboarding
-* home page with current SOL price + % change header, main line/candle chart showing real prices (solid line) and predicted prices (dashed/green line), "last updated" timestamp, pull-to-refresh or refresh icon that hits POST /market/refresh, quick-action buttons to Forecast Detail / Portfolio / Buy SOL, and bottom nav or drawer for other pages
-* buy sol page with available paper USD balance at top, amount-to-spend text field (or slider), live preview of estimated SOL received at current price, optional short note like "Based on latest forecast" if model is bullish, and a primary "Review Buy" button that goes to trade confirm
-* sol forecast in detail page with next 3 predicted daily closes as cards or a small chart, model version + forecast generated time, simple up/down/neutral indicator per day, and a "Why this forecast?" blurb (e.g. "LSTM trained on recent SOL daily closes")
-* paper portfolio page with starting balance vs current value summary, cash available, SOL held + average buy price, unrealized P&L in green/red, and a small sparkline or mini chart of portfolio value over time (can be stubbed at first)
-* trade confirm/receipt page with order summary (USD spent, SOL bought, price used, timestamp), confirm + cancel buttons on confirm step, then success receipt view with checkmark/glow, trade ID, and buttons to view history or return home
-* trade history page with scrollable list of past paper trades (newest first), each row showing date, buy/sell type, amount, price, and optional "forecast was correct?" badge once accuracy data exists
-* account settings page with Auth0 profile name/email, dark/light mode toggle, paper account reset button (with confirm dialog), app version, logout button, and link back to onboarding/help
-* empty/pending/error pages with reusable layouts: empty = "No market data yet" + refresh button; pending = "Generating predictions..." spinner while status is predictions_pending; error = friendly message + retry button for network/auth failures
-* onboarding page with 2-3 swipeable cards explaining the app (1. AI forecasts SOL, 2. You paper-trade with fake money, 3. Track results over time), skip/next buttons, and "Get Started" that marks onboarding complete and routes to login/home
+Crypto prices move fast and intuition alone is a bad trading strategy. I wanted a single app that answers two questions at once: where might SOL go next, and what would I do with that signal if I could practice without losing my net worth? HackWesTX's sponsor tracks (Auth0, Tiger Data, Solana, UI/UX) lined up with that idea: secure identity, efficient timeseries storage, Solana market context, and a mobile experience that feels like a real trading product.
 
-Application Backend Components:
-* needs to use auth0 for login
-* needs to use EC2 and not Google Cloud for Tailscale compatibility
-* needs to have thread for when prediction is being made
-* must take data from solana api, store timeseries data in tiger data, store predicitons data in tiger data, and if new data detected, update the actual data and prediciton data tables
-* must compare predictions vs actual data for a model accuracy
-* must serve the flutter fronend with JSON data
-* must send data to both frontend and prediction service via JSON
-* must take in JSON data from prediction service
+What resulted was a massive project in which three seperate systems were created to communicate with one another with the shared mission to serve the user: the application frontend, the application backend, and a customized API backend for powerful compute.
 
-Prediction Service Components:
-* needs to use auth0 for credentials
-* needs to use Tailscale to put desktop and EC2 in same network to avoid port forwarding on home network
-* must use LSTM RNN (most accurate for timeseries, deeplearning goated)
-* need to send data to backend in form of JSON
+## Application Frontend (Flutter)
 
-THINGS DONE:
-1. set up AWS EC2 isntance to hold my flutter backend
-2. set up Tailscale and EC2 VPN to mesh my AWS backend and my Desktop with its beefy GPU
-3. set up basic tiger cloud
-4. set up auth0 for user auth and predictor auth
-5. set up yfinance for solana time series
-6. wrote skeleton for application backend
-7. wrote skeleton for predictor backend
-8. completed predictor backend env
-9. completed application backend env
-10. completed prediction pipeline on desktop
-11. completed base implementation of application backend
-12. successfully started both backend systems (but yet to pressure test)
-13. application backend successfully downloads latest SOL timeseries data and stores it in timeseries optimized Tiger DB
-14. predictor backend successfully authenticating with auth0 so random people can't call my GPU
-15. appliaction backend to predictor backend to application backend pipeline complete with complete tiger cloud and auth0 predictor integration
-16. application frontend basic skeleton with all pages from notebook implemented
-17. application frontend now uses auth0 for user authentication
-18. application backend now pushes data to frontend
-19. application frontend now takes in data from backend
-20. changed model from LSTM placeholder to GRU for better inference
-21. redid logging as it was too busy and annoying
-22. added time frame logic to the frontend graph
-23. frontend forecast now shows 5 predictions
-24. added paper trading
-25. added sparkline for trading
-26. added Sol selling
-27. removed my typical copywright statements
+The mobile client for iOS and Android. It handles Auth0 login, charts, forecast detail, paper buys, portfolio, and trade history. It never talks to the GPU machine directly. It only calls the application backend and polls market status (`empty`, `predictions_pending`, or `ready`) until forecasts land.
 
+## Application Backend (EC2 + Flask)
+
+The orchestrator in the middle. It verifies user JWTs from Auth0, pulls SOL-USD history with yfinance, reads and writes Tiger Data hypertables, decides whether the day is stale enough to refresh, and owns the pipeline that kicks off prediction jobs. When forecasts finish, it accepts a callback, stores the results, and serves a market bundle the Flutter app can render.
+
+## Predictor Backend (Custom ML Predictor API)
+
+I designed and built my own ML prediction API from scratch instead of plugging into a third-party forecasting SaaS. It is a Flask + PyTorch service that runs on my desktop GPU, joined to EC2 over Tailscale so inference stays on a private mesh with no home-network port forwarding.
+
+That API defines its own request and response contract: accept timeseries JSON, queue async inference, run a BiGRU + temporal attention model, and POST forecasts back to the application backend callback. Auth0 machine-to-machine tokens gate every call so random clients cannot hit the GPU. The model, training/inference workers, auth, and callback flow are all custom code I wrote for this project.
 
